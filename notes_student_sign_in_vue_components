@@ -1,0 +1,81 @@
+What should happen when Add button in NewStudentForm is pressed?
+
+-The NewStudentForm component should emit message to parent
+    - in this project, that's App.vue
+-NewStudentForm's job is to show a form, get input, validate
+    – it doesn't care what happens to the new student once it's created
+
+-Parent component (App.vue) will keep list of students
+-Parent component will provide list to StudentTable component
+
+***Problem - we shouldn't modify props***
+-Using v-model student.present changes data in the student array
+-We should avoid this - bad practice to modify props
+-Child components should not change data in their parents - they should only communicate via events
+  "data down, events up"
+
+***"Data down, events up" (week 10, slide 86)
+-StudentTable receives students as a prop
+-StudentTable diplays data in template
+-When user checks checkbox (we want to remove the v-model) We want StudentTable to emit an event to parent
+with student info, and state of checkbox- checked or unchecked.
+-App.vue receives the event (ex. a specific student has arrived) and updates (modifies its data) student data
+    *App.vue will:
+        -find the student in the array,
+        -update whether or not they are present
+
+-App.vue doesn't have to do anything else as the data is reactive:
+-Because student data is reactive, and bound to the student prop in StudentTable,
+then info will flow back to StudentTable sees the updates, AND the template will then update.
+
+***Rows as components: **
+
+New file – src/components/StudentRow.vue
+
+This is really useful if the rows are complex – one row can manage just one student's data
+
+Example: social media app timeline/newsfeed
+A status update might have text, image, links, like/upvote buttons
+Each status update is one row in a list or table
+Each status update can be a component
+
+***video 6 notes:**
+Listing events that are emitted:
+
+As you add events to your components, you'll need to add
+
+emits: ['student-arrived-or-left']
+in both StudentTable and StudentRow to remove the warning in the console.
+If you don't add this then your app will still work.
+
+Binding the student.present to the checkboxes
+
+Your input checkbox needs
+v-bind:checked="student.present"
+which somehow went missing in this video.
+
+$event.srcElement.checked should also be $event.target.checked, as you wrote in the last video.
+
+The input element will look like this, https://github.com/claraj/vue-week-3-student-sign-in/blob/4286ab2354bf1f8cbbd3873ae7ebb2917aa422da/src/components/StudentRow.vue#L5
+
+****Notes in video 7:****
+Sites for icons: https://icons8.com/ and https://thenounproject.com/
+
+Listing events that are emitted:
+As you add events to your components, you can to add
+emits: ['student-arrived-or-left', 'delete-student']
+in both StudentTable and StudentRow to remove the warning in the console.  If you don't add this then your app will still work. Code should look like this:
+
+StudentRow: https://github.com/claraj/vue-week-3-student-sign-in/blob/4286ab2354bf1f8cbbd3873ae7ebb2917aa422da/src/components/StudentRow.vue#L16 and
+
+StudentTable: https://github.com/claraj/vue-week-3-student-sign-in/blob/4286ab2354bf1f8cbbd3873ae7ebb2917aa422da/src/components/StudentTable.vue#L39
+
+Binding the student.present to the checkboxes
+Your input checkbox needs
+v-bind:checked="student.present"
+
+ And
+
+$event.srcElement.checked should also be $event.target.checked, as you wrote in an earlier video
+
+So, StudentRow will look like this https://github.com/claraj/vue-week-3-student-sign-in/blob/4286ab2354bf1f8cbbd3873ae7ebb2917aa422da/src/components/StudentRow.vue#L5
