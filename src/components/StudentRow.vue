@@ -5,7 +5,7 @@
     <td>{{ student.name }}</td>
     <td>{{ student.starID }}</td>
     <td>
-      <input type="checkbox" v-bind="student.present" v-on:change="arrivedOrLeft(student, $event.srcElement.checked)">
+      <input type="checkbox" v-bind="student.present" v-on:change="arrivedOrLeft(student, $event.target.checked)">
       <!-- after one-way data binding (v-bind), then we need to emit a message to a parent (App.vue)**Head down to methodsVVV-->
     </td>
 <!--    this will import the delete icon from the assets folder in this project-->
